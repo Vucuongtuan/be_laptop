@@ -9,6 +9,16 @@ const path = require("path");
 const routerMouseType = require("./service/apiMouseType");
 const routerMouse = require("./service/apiMouse");
 
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.get("/", (req, res) => {
+  const data = {
+    pageTitle: "Trang chủ",
+    message: "Xin chào, đây là trang chủ!",
+  };
+  res.render("index", data);
+});
+
 //config .env
 require("dotenv").config();
 
@@ -33,6 +43,6 @@ app.use("/api/product/mouse/", routerMouse);
 //run server
 app.listen(function () {
   console.log("====================================");
-  console.log("Run server on port ");
+  console.log("Run server on port");
   console.log("====================================");
 });

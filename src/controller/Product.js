@@ -120,7 +120,7 @@ const deleteProduct = async (req, res, next) => {
     });
   }
 };
-const searchProducte = async (req, res, next) => {
+const searchProduct = async (req, res, next) => {
   try {
     const { type, brand, minPrice, maxPrice } = req.query;
     const query = {};
@@ -142,5 +142,5 @@ module.exports = {
   postProduct,
   updateProduct,
   deleteProduct,
-  searchProducte,
+  searchProduct,
 };

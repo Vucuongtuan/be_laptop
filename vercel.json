@@ -6,7 +6,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/src/views/$1"
+      "dest": "/src/views/index.ejs"
     }
   ]
 }

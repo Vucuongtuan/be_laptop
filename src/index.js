@@ -41,7 +41,7 @@ app.use("/product_type/mouse/", routerMouseType);
 app.use("/product/mouse/", routerMouse);
 
 //run server
-app.listen(function () {
+app.listen(3000, function () {
   console.log("====================================");
   console.log("Run server on port ");
   console.log("====================================");

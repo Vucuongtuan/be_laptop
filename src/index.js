@@ -34,15 +34,15 @@ app.use(bodyParser.json());
 db.connect();
 
 //router
-app.use("/api/account/", accountAPI);
-app.use("/api/product_type/laptop/", routerProductType);
-app.use("/api/product/laptop/", routerProduct);
-app.use("/api/product_type/mouse/", routerMouseType);
-app.use("/api/product/mouse/", routerMouse);
+app.use("/account/", accountAPI);
+app.use("/product_type/laptop/", routerProductType);
+app.use("/product/laptop/", routerProduct);
+app.use("/product_type/mouse/", routerMouseType);
+app.use("/product/mouse/", routerMouse);
 
 //run server
 app.listen(function () {
   console.log("====================================");
-  console.log("Run server on port");
+  console.log("Run server on port ");
   console.log("====================================");
 });

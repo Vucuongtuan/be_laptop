@@ -2,11 +2,11 @@
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "dest": "/src/service/$1"
     },
     {
       "src": "/(.*)",
-      "dest": "/src/$1"
+      "dest": "/src/views/$1"
     }
   ]
 }

@@ -20,6 +20,11 @@ app.get("/", (req, res) => {
   res.render("index", data);
 });
 
+app.use(
+  "/assets/image/",
+  express.static(path.join(__dirname, "./assets/image/"))
+);
+
 //config .env
 require("dotenv").config();
 

@@ -21,8 +21,8 @@ app.get("/", (req, res) => {
 });
 
 app.use(
-  "/assets/image/",
-  express.static(path.join(__dirname, "./assets/image/"))
+  "/image/banner",
+  express.static(path.join(__dirname, "./assets/image/banner"))
 );
 
 //config .env

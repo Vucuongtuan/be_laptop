@@ -5,7 +5,7 @@ const {
   postBannerQc,
   updateBannerQc,
   deleteBannerQc,
-} = require("../../controller/BannerQcBanner");
+} = require("../../controller/BannerQc");
 
 routerQcBanner.get("/", getBannerQc);
 routerQcBanner.post("/", postBannerQc);

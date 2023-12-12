@@ -8,8 +8,9 @@ const routerProduct = require("./service/apiProduct");
 const path = require("path");
 const routerMouseType = require("./service/apiMouseType");
 const routerMouse = require("./service/apiMouse");
-const cors = require('cors')
-app.use(cors())
+const cors = require("cors");
+const routerQcBanner = require("./service/apiQcBanner");
+app.use(cors());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.get("/", (req, res) => {
@@ -45,6 +46,7 @@ app.use("/product_type/laptop/", routerProductType);
 app.use("/product/laptop/", routerProduct);
 app.use("/product_type/mouse/", routerMouseType);
 app.use("/product/mouse/", routerMouse);
+app.use("/banner/", routerQcBanner);
 
 //run server
 app.listen(3000, function () {

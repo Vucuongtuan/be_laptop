@@ -130,6 +130,14 @@ const CartSchema = new Schema(
   },
   { collection: "cart" }
 );
+const BannerQcSchema = new Schema(
+  {
+    thumbnail: String,
+    description: String,
+  },
+  { collection: "banner-qc" }
+);
+
 const AccountDataUser = mongoose.model("accountUser", AccountUserSchema);
 const ProductTypeLaptop = mongoose.model(
   "type_product_laptop",
@@ -139,6 +147,7 @@ const ProductLaptop = mongoose.model("product_laptop", ProductLaptopSchema);
 const MouseType = mongoose.model("type_product_mouse", MouseTypeSchema);
 const Mouse = mongoose.model("product_mouse", MouseSchema);
 const Cart = mongoose.model("cart", CartSchema);
+const BannerQc = mongoose.model("banner_qc", BannerQcSchema);
 module.exports = {
   AccountDataUser,
   ProductTypeLaptop,
@@ -146,4 +155,5 @@ module.exports = {
   MouseType,
   Mouse,
   Cart,
+  BannerQc,
 };

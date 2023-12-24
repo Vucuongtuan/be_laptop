@@ -32,6 +32,7 @@ const ProductLaptopSchema = new Schema(
     total: Number,
     description: String,
     thumbnail: String,
+    totalPurchases: number,
     details: {
       cpu: String,
       ram: String,
@@ -82,6 +83,7 @@ const MouseSchema = new Schema(
     total: Number,
     guarantee: String,
     description: String,
+    totalPurchases: number,
     image: [
       {
         url: String,
@@ -148,6 +150,7 @@ const MouseType = mongoose.model("type_product_mouse", MouseTypeSchema);
 const Mouse = mongoose.model("product_mouse", MouseSchema);
 const Cart = mongoose.model("cart", CartSchema);
 const BannerQc = mongoose.model("banner_qc", BannerQcSchema);
+
 module.exports = {
   AccountDataUser,
   ProductTypeLaptop,

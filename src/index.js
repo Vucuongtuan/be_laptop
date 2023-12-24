@@ -10,6 +10,7 @@ const routerMouseType = require("./service/apiMouseType");
 const routerMouse = require("./service/apiMouse");
 const cors = require("cors");
 const routerQcBanner = require("./service/apiQcBanner");
+const routerAllProduct = require("./service/apiAllProduct");
 app.use(cors());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -47,7 +48,7 @@ app.use("/product/laptop/", routerProduct);
 app.use("/product_type/mouse/", routerMouseType);
 app.use("/product/mouse/", routerMouse);
 app.use("/banner/", routerQcBanner);
-
+app.use("/all-product", routerAllProduct);
 //run server
 app.listen(3000, function () {
   console.log("====================================");

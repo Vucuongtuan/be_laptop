@@ -48,7 +48,7 @@ app.use("/product/laptop/", routerProduct);
 app.use("/product_type/mouse/", routerMouseType);
 app.use("/product/mouse/", routerMouse);
 app.use("/banner/", routerQcBanner);
-app.use("/all-product", routerAllProduct);
+app.use("/all-product/", routerAllProduct);
 //run server
 app.listen(3000, function () {
   console.log("====================================");

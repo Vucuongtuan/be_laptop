@@ -14,6 +14,11 @@ const getAllProduct = async (req, res, next) => {
       .skip((page - 1) * limit)
       .exec();
     const newData = [...getDataLaptop, ...getDataMouse];
+    if (newData.length === 0) {
+      return res.json({
+        message: "Không có dữ liệu",
+      });
+    }
     return res.json({
       total: newData.length,
       totalPages: Math.ceil(total / limit),

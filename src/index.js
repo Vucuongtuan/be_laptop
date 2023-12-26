@@ -28,19 +28,19 @@ app.use(
   express.static(path.join(__dirname, "./assets/image/banner"))
 );
 app.use(
-  "image/brands",
+  "/image/brands",
   express.static(path.join(__dirname, "./assets/image/brands"))
 );
 app.use(
-  "image/laptop/asus",
+  "/image/laptop/asus",
   express.static(path.join(__dirname, "./assets/image/laptop/asus"))
 );
 app.use(
-  "image/mouse",
+  "/image/mouse",
   express.static(path.join(__dirname, "./assets/image/mouse"))
 );
 app.use(
-  "image/keyboard",
+  "/image/keyboard",
   express.static(path.join(__dirname, "./assets/image/keyboard"))
 );
 //static file path

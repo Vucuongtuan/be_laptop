@@ -32,8 +32,8 @@ app.use(
   express.static(path.join(__dirname, "./assets/image/brands"))
 );
 app.use(
-  "image/laptop",
-  express.static(path.join(__dirname, "./assets/image/laptop"))
+  "image/laptop/asus",
+  express.static(path.join(__dirname, "./assets/image/laptop/asus"))
 );
 app.use(
   "image/mouse",

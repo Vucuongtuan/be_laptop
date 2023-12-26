@@ -1,4 +1,10 @@
 const express = require("express");
+const {
+  getBrands,
+  postBrands,
+  updateBrands,
+  deleteBrands,
+} = require("../../controller/BrandsController");
 const routerBrands = express.Router();
 
 routerBrands.get("/", getBrands);

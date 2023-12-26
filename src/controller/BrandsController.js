@@ -1,5 +1,6 @@
 const { query } = require("express");
 const { Brands } = require("../models/");
+const multer = require("multer");
 
 const message = (err) => {
   return res.status(500).json({

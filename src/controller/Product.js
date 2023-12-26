@@ -22,6 +22,8 @@ const postProduct = async (req, res, next) => {
       name_product,
       total,
       description,
+      thumbnail,
+      totalPurchases,
       details,
       keyboard,
       audio,
@@ -31,11 +33,15 @@ const postProduct = async (req, res, next) => {
       weight,
       size,
       manufacturer,
+      id_category,
+      id_product_brand,
     } = req.body;
     const postProduct = await ProductLaptop.create({
       name_product,
       total,
       description,
+      thumbnail,
+      totalPurchases,
       details,
       keyboard,
       audio,
@@ -45,15 +51,15 @@ const postProduct = async (req, res, next) => {
       weight,
       size,
       manufacturer,
+      id_category,
+      id_product_brand,
     });
     // if(postProduct.length === 0 ) {
     //   res.json({
     //     message:"Thêm sản phẩm thất bại"
     //   })
     // }
-    console.log("====================================");
-    console.log("check : " + postProduct);
-    console.log("====================================");
+
     return res.json({
       product: postProduct,
       message: "Thêm mới sản phẩm thành công ",

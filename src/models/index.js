@@ -15,6 +15,11 @@ const ProductTypeLaptopSchema = new Schema(
   {
     name_product_type: String,
     description: String,
+    product_brand: {
+      type: Schema.Types.ObjectId,
+      ref: "brands",
+      required: true,
+    },
     create_date: {
       type: Date,
       default: Date.now,
@@ -31,7 +36,11 @@ const ProductLaptopSchema = new Schema(
     name_product: String,
     total: Number,
     description: String,
-    thumbnail: String,
+    thumbnail: [
+      {
+        type: String,
+      },
+    ],
     totalPurchases: Number,
     details: {
       cpu: String,
@@ -40,13 +49,11 @@ const ProductLaptopSchema = new Schema(
       card_graphics: String,
       pin: String,
       screen: String,
-      connector: {
-        type_c: String,
-        type_a: String,
-        hdmi: String,
-        audio: String,
-        micro_sd: String,
-      },
+      connector: [
+        {
+          type: String,
+        },
+      ],
       keyboard: String,
       audio: String,
       wifi_bluetooth: String,
@@ -54,11 +61,16 @@ const ProductLaptopSchema = new Schema(
       system: String,
       weight: String,
       size: String,
-      manufacturer: String,
+      brands: String,
     },
     product_category: {
       type: Schema.Types.ObjectId,
       ref: "type_product_laptop",
+      required: true,
+    },
+    product_brand: {
+      type: Schema.Types.ObjectId,
+      ref: "brands",
       required: true,
     },
     create_product: { type: Date, default: Date.now },
@@ -70,6 +82,11 @@ const MouseTypeSchema = new Schema(
   {
     name_type: String,
     description: String,
+    product_brand: {
+      type: Schema.Types.ObjectId,
+      ref: "brands",
+      required: true,
+    },
     create_date: { type: Date, default: Date.now() },
     update_date: { type: Date, default: Date.now() },
   },
@@ -110,6 +127,11 @@ const MouseSchema = new Schema(
       ref: "type_product_mouse",
       required: true,
     },
+    product_brand: {
+      type: Schema.Types.ObjectId,
+      ref: "brands",
+      required: true,
+    },
   },
   {
     collection: "product_mouse",
@@ -139,7 +161,17 @@ const BannerQcSchema = new Schema(
   },
   { collection: "banner-qc" }
 );
-
+const BrandsSchema = new Schema(
+  {
+    name: String,
+    description: String,
+    thumbnail: String,
+  },
+  {
+    collection: "brands",
+  }
+);
+const Brands = mongoose.model("brands", BrandsSchema);
 const AccountDataUser = mongoose.model("accountUser", AccountUserSchema);
 const ProductTypeLaptop = mongoose.model(
   "type_product_laptop",
@@ -159,4 +191,5 @@ module.exports = {
   Mouse,
   Cart,
   BannerQc,
+  Brands,
 };

@@ -1,4 +1,4 @@
-const { ProductLaptop, Mouse } = require("../models");
+const { ProductLaptop, Mouse } = require("../models/");
 
 const getAllProduct = async (req, res, next) => {
   try {

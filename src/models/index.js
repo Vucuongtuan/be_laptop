@@ -63,6 +63,7 @@ const ProductLaptopSchema = new Schema(
       size: String,
       brands: String,
     },
+    seller: Number,
     product_category: {
       type: Schema.Types.ObjectId,
       ref: "type_product_laptop",
@@ -122,6 +123,7 @@ const MouseSchema = new Schema(
       size: String,
       weight: Number,
     },
+    seller: Number,
     product_type__mouse: {
       type: Schema.Types.ObjectId,
       ref: "type_product_mouse",

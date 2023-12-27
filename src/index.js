@@ -12,6 +12,7 @@ const cors = require("cors");
 const routerQcBanner = require("./service/apiQcBanner");
 const routerAllProduct = require("./service/apiAllProduct");
 const routerBrands = require("./service/apiBrands");
+
 app.use(cors());
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -32,8 +33,8 @@ app.use(
   express.static(path.join(__dirname, "./assets/image/brands"))
 );
 app.use(
-  "/image/laptop/asus",
-  express.static(path.join(__dirname, "./assets/image/laptop/asus"))
+  "/image/laptop/",
+  express.static(path.join(__dirname, "./assets/image/laptop"))
 );
 app.use(
   "/image/mouse",

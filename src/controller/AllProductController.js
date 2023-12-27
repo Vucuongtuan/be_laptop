@@ -1,30 +1,30 @@
 const { ProductLaptop, Mouse } = require("../models/");
 
+const PAGE_SIZE = 10;
 const getAllProduct = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
 
     const getDataLaptop = await ProductLaptop.find({})
-      .limit(limit)
-      .skip((page - 1) * limit)
-      .exec();
+      .skip((page - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE);
     const getDataMouse = await Mouse.find({})
-      .limit(limit)
-      .skip((page - 1) * limit)
-      .exec();
+      .skip((page - 1) * PAGE_SIZE)
+      .limit(PAGE_SIZE);
     const newData = [...getDataLaptop, ...getDataMouse];
-    if (newData.length === 0) {
+    if (getDataLaptop.length === 0) {
       return res.json({
         message: "Không có dữ liệu",
       });
     }
-    return res.json({
+    const responseData = {
       total: newData.length,
-      totalPages: Math.ceil(total / limit),
+      totalPages: Math.ceil(newData.length / PAGE_SIZE),
       data: newData,
-    });
+    };
+    return res.json(responseData);
   } catch (err) {
+    console.log(err);
     return res.status(500).json({
       message: "Lỗi kết nối với Server",
       error: err,

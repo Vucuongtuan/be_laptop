@@ -78,7 +78,7 @@ const updateBrands = async (req, res, next) => {
       name,
       description,
     });
-    if (updateBrands) {
+    if (updateData) {
       return res.json({
         message: "Sửa brands thành công",
       });

@@ -12,6 +12,8 @@ const cors = require("cors");
 const routerQcBanner = require("./service/apiQcBanner");
 const routerAllProduct = require("./service/apiAllProduct");
 const routerBrands = require("./service/apiBrands");
+const routerKeybourdType = require("./service/apiKeybourdType");
+const routerKeybourd = require("./service/apiKeybourd");
 
 app.use(cors());
 app.set("views", path.join(__dirname, "views"));
@@ -72,6 +74,8 @@ app.use("/product/mouse/", routerMouse);
 app.use("/banner/", routerQcBanner);
 app.use("/all-product/", routerAllProduct);
 app.use("/brands/", routerBrands);
+app.use("/product_type/keybourd/", routerKeybourdType);
+app.use("/keybourd/", routerKeybourd);
 //run server
 app.listen(3000, function () {
   console.log("====================================");

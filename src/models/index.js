@@ -63,7 +63,8 @@ const ProductLaptopSchema = new Schema(
       size: String,
       brands: String,
     },
-    seller: Number,
+    discount_percent: Number,
+    inventory: Number,
     product_category: {
       type: Schema.Types.ObjectId,
       ref: "type_product_laptop",
@@ -102,10 +103,9 @@ const MouseSchema = new Schema(
     guarantee: String,
     description: String,
     totalPurchases: Number,
-    image: [
+    thumbnail: [
       {
-        url: String,
-        isThumbnails: { type: Boolean, default: true },
+        type: String,
       },
     ],
     details: {
@@ -114,6 +114,11 @@ const MouseSchema = new Schema(
       microprocessor: String,
       manufacturer: String,
       similar: String,
+      connector: [
+        {
+          type: String,
+        },
+      ],
       wireless_technology: String,
       battery: String,
       sensor: String,
@@ -123,7 +128,10 @@ const MouseSchema = new Schema(
       size: String,
       weight: Number,
     },
-    seller: Number,
+    discount_percent: Number,
+    inventory: Number,
+    create_date: { type: Date, default: Date.now() },
+    update_date: { type: Date, default: Date.now() },
     product_type__mouse: {
       type: Schema.Types.ObjectId,
       ref: "type_product_mouse",
@@ -166,11 +174,74 @@ const BannerQcSchema = new Schema(
 const BrandsSchema = new Schema(
   {
     name: String,
+    type: String,
     description: String,
     thumbnail: String,
   },
   {
     collection: "brands",
+  }
+);
+const KeybourdSchema = new Schema(
+  {
+    name: String,
+    thumbnail: [
+      {
+        type: String,
+      },
+    ],
+    layout: String,
+    switch_key: String,
+    pin: String,
+    personal: String,
+    foam: String,
+    weight: String,
+    size: String,
+    connector: [
+      {
+        type: String,
+      },
+    ],
+    configuration: String,
+    keycap: String,
+    support: String,
+    accessory: String,
+    software: String,
+    compatibility: String,
+    discount_percent: Number,
+    inventory: Number,
+    create_date: { type: Date, default: Date.now() },
+    update_date: { type: Date, default: Date.now() },
+    product_type_keybourd: {
+      type: Schema.Types.ObjectId,
+      ref: "type_product_keybourd",
+      required: true,
+    },
+    product_brand: {
+      type: Schema.Types.ObjectId,
+      ref: "brands",
+      required: true,
+    },
+  },
+  {
+    collection: "product-mouse",
+  }
+);
+const KeybourdTypeSchema = new Schema(
+  {
+    name_type: String,
+    description: String,
+    product_brand: {
+      type: Schema.Types.ObjectId,
+      ref: "brands",
+      required: true,
+    },
+
+    create_date: { type: Date, default: Date.now() },
+    update_date: { type: Date, default: Date.now() },
+  },
+  {
+    collection: "type_product_keybourd",
   }
 );
 const Brands = mongoose.model("brands", BrandsSchema);
@@ -184,7 +255,11 @@ const MouseType = mongoose.model("type_product_mouse", MouseTypeSchema);
 const Mouse = mongoose.model("product_mouse", MouseSchema);
 const Cart = mongoose.model("cart", CartSchema);
 const BannerQc = mongoose.model("banner_qc", BannerQcSchema);
-
+const Keybourd = mongoose.model("product_keybourd", KeybourdSchema);
+const KeybourdType = mongoose.model(
+  "type_product_keybourd",
+  KeybourdTypeSchema
+);
 module.exports = {
   AccountDataUser,
   ProductTypeLaptop,
@@ -194,4 +269,6 @@ module.exports = {
   Cart,
   BannerQc,
   Brands,
+  Keybourd,
+  KeybourdType,
 };

@@ -1,5 +1,6 @@
+const multer = require("multer");
 const { ProductLaptop } = require("../models/");
-
+const path = require("path");
 const getProduct = async (req, res, next) => {
   try {
     const getProduct = await ProductLaptop.find({});
@@ -16,53 +17,76 @@ const getProduct = async (req, res, next) => {
     });
   }
 };
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "assets/images");
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage: storage }).array("thumbnail", 7);
 const postProduct = async (req, res, next) => {
   try {
-    const {
-      name_product,
-      total,
-      description,
-      thumbnail,
-      totalPurchases,
-      details,
-      keyboard,
-      audio,
-      wifi_bluetooth,
-      cam,
-      system,
-      weight,
-      size,
-      manufacturer,
-      id_category,
-      id_product_brand,
-    } = req.body;
-    const postProduct = await ProductLaptop.create({
-      name_product,
-      total,
-      description,
-      thumbnail,
-      totalPurchases,
-      details,
-      keyboard,
-      audio,
-      wifi_bluetooth,
-      cam,
-      system,
-      weight,
-      size,
-      manufacturer,
-      id_category,
-      id_product_brand,
-    });
-    // if(postProduct.length === 0 ) {
-    //   res.json({
-    //     message:"Thêm sản phẩm thất bại"
-    //   })
-    // }
+    upload(req, res, async function (err) {
+      if (err) {
+        return res.status(500).json({
+          message: "Lỗi khi upload hình ảnh",
+          error: err,
+        });
+      }
 
-    return res.json({
-      product: postProduct,
-      message: "Thêm mới sản phẩm thành công ",
+      const {
+        name_product,
+        total,
+        description,
+        totalPurchases,
+        details,
+        keyboard,
+        audio,
+        wifi_bluetooth,
+        cam,
+        system,
+        weight,
+        size,
+        manufacturer,
+        discount_percent,
+        inventory,
+        id_category,
+        id_product_brand,
+      } = req.body;
+
+      const thumbnails = req.files.map((file) => ({
+        type: file.mimetype,
+        path: `https://vtc-be-laptop.onrender.com/assets/images/${file.filename}`,
+      }));
+
+      const postProduct = await ProductLaptop.create({
+        name_product,
+        total,
+        description,
+        thumbnail: thumbnails,
+        totalPurchases,
+        details,
+        keyboard,
+        audio,
+        wifi_bluetooth,
+        cam,
+        system,
+        weight,
+        size,
+        manufacturer,
+        discount_percent,
+        inventory,
+        product_category: id_category,
+        product_brand: id_product_brand,
+      });
+
+      return res.json({
+        product: postProduct,
+        message: "Thêm mới sản phẩm thành công ",
+      });
     });
   } catch (err) {
     return res.json({
@@ -78,14 +102,21 @@ const updateProduct = async (req, res, next) => {
       name_product,
       total,
       description,
+      thumbnail,
+      totalPurchases,
       details,
       keyboard,
       audio,
       wifi_bluetooth,
+      cam,
       system,
       weight,
       size,
       manufacturer,
+      discount_percent,
+      inventory,
+      id_category,
+      id_product_brand,
     } = req.body;
     const updateProduct = await ProductLaptop.findOneAndUpdate(id, {
       name_product,
@@ -99,6 +130,10 @@ const updateProduct = async (req, res, next) => {
       weight,
       size,
       manufacturer,
+      discount_percent,
+      inventory,
+      product_category: id_category,
+      product_brand: id_product_brand,
     });
     if (id === undefined) {
       return res.status(404).json({ message: "Không tìm thấy ID này" });

@@ -41,7 +41,10 @@ const postDataMouse = async (req, res, next) => {
         total,
         guarantee,
         details,
-        image: imagePaths,
+
+        discount_percent,
+        inventory,
+        thumbnail: imagePaths,
       });
 
       return res.json(postData);
@@ -61,6 +64,9 @@ const updateDataMouse = async (req, res, next) => {
       total,
       guarantee,
       details,
+      thumbnail,
+      discount_percent,
+      inventory,
     });
 
     return res.json({

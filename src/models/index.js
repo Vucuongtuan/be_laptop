@@ -130,8 +130,6 @@ const MouseSchema = new Schema(
     },
     discount_percent: Number,
     inventory: Number,
-    create_date: { type: Date, default: Date.now() },
-    update_date: { type: Date, default: Date.now() },
     product_type__mouse: {
       type: Schema.Types.ObjectId,
       ref: "type_product_mouse",

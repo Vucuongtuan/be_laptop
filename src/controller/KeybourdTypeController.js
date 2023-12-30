@@ -18,7 +18,7 @@ const getKeybourdType = async (req, res, next) => {
   }
 };
 
-const putKeybourdType = async (req, res, next) => {
+const postKeybourdType = async (req, res, next) => {
   try {
     const { name_type, description, id } = req.body;
     const postData = await KeybourdType.create({
@@ -75,7 +75,7 @@ const deleteKeybourdType = async (req, res, next) => {
 };
 module.exports = {
   getKeybourdType,
-  putKeybourdType,
+  postKeybourdType,
   updateKeybourdType,
   deleteKeybourdType,
 };

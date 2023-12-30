@@ -3,12 +3,12 @@ const routerKeybourd = express.Router();
 const {
   getKeybourd,
   postKeybourd,
-  putKeybourd,
+  updateKeybourd,
   deleteKeybourd,
 } = require("../../controller/Keybourd");
 routerKeybourd.get("/", getKeybourd);
 routerKeybourd.post("/", postKeybourd);
-routerKeybourd.put("/id", putKeybourd);
+routerKeybourd.put("/id", updateKeybourd);
 routerKeybourd.delete("/id", deleteKeybourd);
 
 module.exports = routerKeybourd;

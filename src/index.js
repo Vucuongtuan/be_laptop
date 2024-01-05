@@ -46,6 +46,10 @@ app.use(
   "/image/keyboard",
   express.static(path.join(__dirname, "./assets/image/keyboard"))
 );
+app.use(
+  "/image/spa",
+  express.static(path.join(__dirname, "./assets/image/spa"))
+);
 //static file path
 app.use(
   "/assets/brands/",

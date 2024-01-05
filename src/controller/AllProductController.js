@@ -1,4 +1,4 @@
-const { ProductLaptop, Mouse } = require("../models/");
+const { ProductLaptop, Mouse,Keybourd } = require("../models/");
 
 const PAGE_SIZE = 10;
 const getAllProduct = async (req, res, next) => {
@@ -11,7 +11,10 @@ const getAllProduct = async (req, res, next) => {
     const getDataMouse = await Mouse.find({})
       .skip((page - 1) * PAGE_SIZE)
       .limit(PAGE_SIZE);
-    const newData = [...getDataLaptop, ...getDataMouse];
+    const getDataKeybourd = await Keybourd.find({})
+    .skip(page - 1 ) * PAGE_SIZE)
+    .limit(PAGE_SIZE)
+    const newData = [...getDataLaptop, ...getDataMouse, ...getDataKeybourd];
     if (getDataLaptop.length === 0) {
       return res.json({
         message: "Không có dữ liệu",

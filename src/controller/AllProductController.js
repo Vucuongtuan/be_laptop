@@ -12,7 +12,7 @@ const getAllProduct = async (req, res, next) => {
       .skip((page - 1) * PAGE_SIZE)
       .limit(PAGE_SIZE);
     const getDataKeybourd = await Keybourd.find({})
-    .skip(page - 1 ) * PAGE_SIZE)
+    .skip((page - 1 ) * PAGE_SIZE)
     .limit(PAGE_SIZE)
     const newData = [...getDataLaptop, ...getDataMouse, ...getDataKeybourd];
     if (getDataLaptop.length === 0) {

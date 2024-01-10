@@ -1,6 +1,6 @@
 const { ProductLaptop, Mouse, Keybourd } = require("../models/");
 
-const PAGE_SIZE = 1;
+const PAGE_SIZE = 10;
 
 const getAllProduct = async (req, res, next) => {
   try {

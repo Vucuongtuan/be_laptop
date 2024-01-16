@@ -13,9 +13,11 @@ const getAllProduct = async (req, res, next) => {
 
     const allData = [...getDataLaptop, ...getDataMouse, ...getDataKeybourd];
 
-    const filteredData = id
-      ? allData.filter((item) => item._id === id)
-      : allData;
+    const filteredData = !id
+      ? allData
+      : allData.filter((item) => {
+          return item._id.toString() === id;
+        });
 
     const startIndex = (page - 1) * PAGE_SIZE;
     const endIndex = startIndex + PAGE_SIZE;

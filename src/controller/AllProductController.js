@@ -5,7 +5,7 @@ const PAGE_SIZE = 10;
 const getAllProduct = async (req, res, next) => {
   try {
     const page = parseInt(req.query.page) || 1;
-    const nameProduct = req.query.nameProduct;
+    const id = req.query.id;
 
     const getDataLaptop = await ProductLaptop.find({});
     const getDataMouse = await Mouse.find({});
@@ -14,7 +14,7 @@ const getAllProduct = async (req, res, next) => {
     const allData = [...getDataLaptop, ...getDataMouse, ...getDataKeybourd];
 
     const filteredData = nameProduct
-      ? allData.filter((item) => item._id === nameProduct)
+      ? allData.filter((item) => item._id === id)
       : allData;
 
     const startIndex = (page - 1) * PAGE_SIZE;

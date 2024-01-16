@@ -13,7 +13,7 @@ const getAllProduct = async (req, res, next) => {
 
     const allData = [...getDataLaptop, ...getDataMouse, ...getDataKeybourd];
 
-    const filteredData = nameProduct
+    const filteredData = id
       ? allData.filter((item) => item._id === id)
       : allData;
 

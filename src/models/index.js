@@ -75,6 +75,11 @@ const ProductLaptopSchema = new Schema(
       ref: "brands",
       required: true,
     },
+    product_content: {
+      type: Schema.Types.ObjectId,
+      ref: "post_content",
+      required: true,
+    },
     create_product: { type: Date, default: Date.now },
     update_product: { type: Date, default: Date.now },
   },
@@ -138,6 +143,11 @@ const MouseSchema = new Schema(
     product_brand: {
       type: Schema.Types.ObjectId,
       ref: "brands",
+      required: true,
+    },
+    product_content: {
+      type: Schema.Types.ObjectId,
+      ref: "post_content",
       required: true,
     },
   },
@@ -220,9 +230,14 @@ const KeybourdSchema = new Schema(
       ref: "brands",
       required: true,
     },
+    product_content: {
+      type: Schema.Types.ObjectId,
+      ref: "post_content",
+      required: true,
+    },
   },
   {
-    collection: "product-mouse",
+    collection: "product_keyboard",
   }
 );
 const KeybourdTypeSchema = new Schema(
@@ -242,6 +257,23 @@ const KeybourdTypeSchema = new Schema(
     collection: "type_product_keybourd",
   }
 );
+const PostContentSchema = new Schema(
+  {
+    name: String,
+    description: String,
+    content: String,
+    productCollection: {
+      type: Schema.Types.ObjectId,
+      refPath: "productCollectionRef",
+      required: true,
+    },
+    productCollectionRef: {
+      type: String,
+      enum: ["product_laptop", "product-mouse", "product_keyboard"],
+    },
+  },
+  { collection: "post_content" }
+);
 const Brands = mongoose.model("brands", BrandsSchema);
 const AccountDataUser = mongoose.model("accountUser", AccountUserSchema);
 const ProductTypeLaptop = mongoose.model(
@@ -253,11 +285,12 @@ const MouseType = mongoose.model("type_product_mouse", MouseTypeSchema);
 const Mouse = mongoose.model("product_mouse", MouseSchema);
 const Cart = mongoose.model("cart", CartSchema);
 const BannerQc = mongoose.model("banner_qc", BannerQcSchema);
-const Keybourd = mongoose.model("product_keybourd", KeybourdSchema);
+const Keybourd = mongoose.model("product_keyboard", KeybourdSchema);
 const KeybourdType = mongoose.model(
   "type_product_keybourd",
   KeybourdTypeSchema
 );
+const PostContent = mongoose.model("post_content", PostContentSchema);
 module.exports = {
   AccountDataUser,
   ProductTypeLaptop,
@@ -269,4 +302,5 @@ module.exports = {
   Brands,
   Keybourd,
   KeybourdType,
+  PostContent,
 };

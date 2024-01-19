@@ -190,9 +190,10 @@ const BrandsSchema = new Schema(
     collection: "brands",
   }
 );
-const KeybourdSchema = new Schema(
+const KeyboardSchema = new Schema(
   {
     name: String,
+    total: Number,
     thumbnail: [
       {
         type: String,
@@ -285,7 +286,7 @@ const MouseType = mongoose.model("type_product_mouse", MouseTypeSchema);
 const Mouse = mongoose.model("product_mouse", MouseSchema);
 const Cart = mongoose.model("cart", CartSchema);
 const BannerQc = mongoose.model("banner_qc", BannerQcSchema);
-const Keybourd = mongoose.model("product_keyboard", KeybourdSchema);
+const Keybourd = mongoose.model("product_keyboard", KeyboardSchema);
 const KeybourdType = mongoose.model(
   "type_product_keybourd",
   KeybourdTypeSchema

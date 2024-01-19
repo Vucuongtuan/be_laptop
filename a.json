@@ -1,0 +1,52 @@
+[
+  {
+    "_id": {
+      "$oid": "65a9414d76625bd585b33707"
+    },
+    "name": "Chuột Logitech G Pro X Superlight 2 White",
+    "total": "3090000",
+    "guarantee": "24 Tháng",
+    "description": "Chuột Logitech G Pro X Superlight 2 White chính hãng giá rẻ,",
+    "totalPurchases": "12",
+    "thumbnail": [
+      "https://vtc-be-laptop.onrender.com/image/mouse/logitech_GPro_X_Superlight_2_white_1.webp",
+      "https://vtc-be-laptop.onrender.com/image/mouse/logitech_GPro_X_Superlight_2_white_2.webp",
+      "https://vtc-be-laptop.onrender.com/image/mouse/logitech_GPro_X_Superlight_2_white_3.webp",
+      "https://vtc-be-laptop.onrender.com/image/mouse/logitech_GPro_X_Superlight_2_white_4.webp",
+      "https://vtc-be-laptop.onrender.com/image/mouse/logitech_GPro_X_Superlight_2_white_5.webp",
+      "https://vtc-be-laptop.onrender.com/image/mouse/logitech_GPro_X_Superlight_2_white_6.webp",
+      "https://vtc-be-laptop.onrender.com/image/mouse/logitech_GPro_X_Superlight_2_white_7.webp"
+    ],
+    "details": {
+      "color": "White(Trắng)",
+      "polling-rate": "2000 Hz (0.5ms)",
+      "connector": ["wireless", "Kết nối dây USB to type-C"],
+      "manufacturer": "Logitech",
+      "microprocessor": "32-bit ARM",
+      "similar": "",
+      "battery": "95h",
+      "max_acceleration": "\t\n> 40 G",
+      "max_speed": "> 500 IPS",
+      "sensor": "HERO 2",
+      "size": "< 63 g",
+      "weight": [
+        "Chiều cao: 125,0 mm",
+        "Chiều rộng: 63,5 mm",
+        "Chiều dày: 40,0 mm",
+        "Trọng lượng: 60 g"
+      ],
+      "wireless_technology": "LIGHTSPEED"
+    },
+    "discount_percent": 21,
+    "inventory": 43,
+    "product_type__mouse": {
+      "$oid": "656d4938385b688ac62d158b"
+    },
+    "product_brand": {
+      "$oid": "658a71a1a729dca615ea5d0f"
+    },
+    "product_content": {
+      "$oid": ""
+    }
+  }
+]

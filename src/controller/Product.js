@@ -38,7 +38,7 @@ const postProduct = async (req, res, next) => {
       }
 
       const {
-        name_product,
+        name,
         total,
         description,
         totalPurchases,
@@ -63,7 +63,7 @@ const postProduct = async (req, res, next) => {
       }));
 
       const postProduct = await ProductLaptop.create({
-        name_product,
+        name,
         total,
         description,
         thumbnail: thumbnails,
@@ -99,7 +99,7 @@ const updateProduct = async (req, res, next) => {
   try {
     const id = req.query.id;
     const {
-      name_product,
+      name,
       total,
       description,
       thumbnail,
@@ -119,7 +119,7 @@ const updateProduct = async (req, res, next) => {
       id_product_brand,
     } = req.body;
     const updateProduct = await ProductLaptop.findOneAndUpdate(id, {
-      name_product,
+      name,
       total,
       description,
       details,

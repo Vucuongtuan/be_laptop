@@ -33,7 +33,7 @@ const ProductTypeLaptopSchema = new Schema(
 );
 const ProductLaptopSchema = new Schema(
   {
-    name_product: String,
+    name: String,
     total: Number,
     description: String,
     thumbnail: [

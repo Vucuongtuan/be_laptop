@@ -79,8 +79,8 @@ app.use("/product/mouse/", routerMouse);
 app.use("/banner/", routerQcBanner);
 app.use("/all-product/", routerAllProduct);
 app.use("/brands/", routerBrands);
-app.use("/product_type/keybourd/", routerKeybourdType);
-app.use("/keybourd/", routerKeybourd);
+app.use("/product_type/keyboard/", routerKeybourdType);
+app.use("/keyboard/", routerKeybourd);
 app.use("/post-content/", routerPost);
 //run server
 const port = 4000;

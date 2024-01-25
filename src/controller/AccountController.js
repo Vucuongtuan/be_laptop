@@ -82,16 +82,15 @@ const postDataAccountUser = async (req, res, next) => {
       total,
       cartID: cart._id,
     });
-
-    await AccountUser.create({ userID: user._id, username, password });
-
     const cart = await Cart.create({
-      userID: user._id,
       name: fullName,
       email: email,
       phone: phone,
       address: address,
     });
+
+    await AccountUser.create({ userID: user._id, username, password });
+
     return res.status(200).json({
       message: "thêm người dùng thành công",
     });

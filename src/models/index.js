@@ -2,15 +2,47 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const UserSchema = new Schema(
+  {
+    fullName: String,
+    age: Number,
+    address: String,
+    email: String,
+    phone: { type: Number, default: null },
+    gender: { type: String, enum: ["Nam", "Nữ"] },
+    total: Number,
+    cartID: { type: Schema.Types.ObjectId, ref: "cart" },
+  },
+  { collection: "User" }
+);
 const AccountUserSchema = new Schema(
   {
+    userID: { type: Schema.Types.ObjectId, ref: "User" },
     username: String,
     password: String,
     date: { type: Date, default: Date.now },
   },
   { collection: "accountUser" }
 );
-
+const CartSchema = new Schema(
+  {
+    userID: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    name: String,
+    email: String,
+    phone: Number,
+    address: String,
+    items: {
+      productId: { type: Schema.Types.ObjectId, required: true },
+      productType: { type: String, required: true },
+      quantity: { type: Number, default: 1 },
+    },
+  },
+  { collection: "cart" }
+);
 const ProductTypeLaptopSchema = new Schema(
   {
     name_product_type: String,
@@ -155,23 +187,7 @@ const MouseSchema = new Schema(
     collection: "product_mouse",
   }
 );
-const CartSchema = new Schema(
-  {
-    id_account: {
-      type: Schema.Types.ObjectId,
-      ref: "accountUser",
-      required: true,
-    },
-    account_name: String,
-    email: String,
-    items: {
-      productId: { type: mongoose.Schema.Types.ObjectId, required: true },
-      productType: { type: String, required: true },
-      quantity: { type: Number, default: 1 },
-    },
-  },
-  { collection: "cart" }
-);
+
 const BannerQcSchema = new Schema(
   {
     thumbnail: String,
@@ -275,6 +291,7 @@ const PostContentSchema = new Schema(
   },
   { collection: "post_content" }
 );
+const User = mongoose.model("User", UserSchema);
 const Brands = mongoose.model("brands", BrandsSchema);
 const AccountDataUser = mongoose.model("accountUser", AccountUserSchema);
 const ProductTypeLaptop = mongoose.model(
@@ -293,6 +310,7 @@ const KeybourdType = mongoose.model(
 );
 const PostContent = mongoose.model("post_content", PostContentSchema);
 module.exports = {
+  User,
   AccountDataUser,
   ProductTypeLaptop,
   ProductLaptop,

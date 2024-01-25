@@ -6,12 +6,14 @@ const {
 } = require("../../middleware/checkAccountUser");
 const {
   getDataAccountUser,
+  getDataByIDAccountUser,
   postDataAccountUser,
   putDataAccountUser,
   deleteAccountUser,
 } = require("../../controller/AccountController");
 
 accountAPI.get("/", getDataAccountUser);
+accountAPI.get("/", getDataByIDAccountUser);
 accountAPI.post("/", checkAccountUser, postDataAccountUser);
 accountAPI.put("/update_id", putDataAccountUser);
 accountAPI.delete("/delete_id", deleteAccountUser);

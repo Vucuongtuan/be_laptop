@@ -72,6 +72,13 @@ const postDataAccountUser = async (req, res, next) => {
       username,
       password,
     } = req.body;
+    const cart = await Cart.create({
+      name: fullName,
+      email: email,
+      phone: phone,
+      address: address,
+      item: null,
+    });
     const user = await User.create({
       fullName,
       age,
@@ -81,12 +88,6 @@ const postDataAccountUser = async (req, res, next) => {
       gender,
       total,
       cartID: cart._id,
-    });
-    const cart = await Cart.create({
-      name: fullName,
-      email: email,
-      phone: phone,
-      address: address,
     });
 
     await AccountUser.create({ userID: user._id, username, password });

@@ -71,7 +71,7 @@ const postDataAccountUser = async (req, res, next) => {
       total,
       username,
       password,
-    } = res.body;
+    } = req.body;
     const user = await User.create({
       fullName,
       age,

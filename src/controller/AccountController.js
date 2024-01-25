@@ -10,6 +10,8 @@ const getDataAccountUser = async (req, res, next) => {
           console.log(err);
           console.log("====================================");
           res.status(500).json({ message: "Không thể lấy dữ liệu người dùng" });
+        } else if (user.length <= 0) {
+          res.json({ message: "Không có người dùng nào" });
         }
         return res.json({
           total: user.length,

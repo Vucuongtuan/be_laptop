@@ -35,11 +35,13 @@ const CartSchema = new Schema(
     email: String,
     phone: Number,
     address: String,
-    items: {
-      productId: { type: Schema.Types.ObjectId, required: true },
-      productType: { type: String, required: true },
-      quantity: { type: Number, default: 1 },
-    },
+    items: [
+      {
+        productId: { type: Schema.Types.ObjectId, required: true },
+        productType: { type: String, required: true },
+        quantity: { type: Number, default: 1 },
+      },
+    ],
   },
   { collection: "cart" }
 );

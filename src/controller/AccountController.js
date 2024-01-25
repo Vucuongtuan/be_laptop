@@ -4,23 +4,29 @@ const getDataAccountUser = async (req, res, next) => {
   try {
     await User.find({})
       .populate("accountUser")
-      .exec((err, user) => {
-        if (err) {
-          console.log("====================================");
-          console.log(user);
-          console.log("====================================");
-          res.status(500).json({ message: "Không thể lấy dữ liệu người dùng" });
-        } else if (user.length <= 0) {
-          res.json({ message: "Không có người dùng nào" });
+      .then((user) => {
+        if (user.length <= 0) {
+          return res.json({ message: "Không có người dùng nào" });
+        } else {
+          return res.json({
+            total: user.length,
+            data: user,
+          });
         }
-        return res.json({
-          total: user.length,
-          data: user,
-        });
+      })
+      .catch((err) => {
+        console.log("====================================");
+        console.log(err);
+        console.log("====================================");
+        return res.json({ message: "Lỗi vui lòng thử lại sau" });
       });
   } catch (err) {
+    console.log("====================================");
+    console.log(err);
+    console.log("====================================");
     return res.status(500).json({
       message: "Error connecting to the database !!!",
+      err: err,
     });
   }
 };
@@ -57,7 +63,7 @@ const getDataByIDAccountUser = async (req, res, next) => {
       });
   } catch (err) {
     return res.status(500).json({
-      message: "Error connecting to the database !!!",
+      message: "Error connecting to the database !!! 123",
     });
   }
 };
@@ -73,13 +79,14 @@ const postDataAccountUser = async (req, res, next) => {
       total,
       username,
       password,
+      items,
     } = req.body;
     const cart = await Cart.create({
       name: fullName,
       email: email,
       phone: phone,
       address: address,
-      item: null,
+      items: items,
     });
     const user = await User.create({
       fullName,
@@ -92,12 +99,15 @@ const postDataAccountUser = async (req, res, next) => {
       cartID: cart._id,
     });
 
-    await AccountUser.create({ userID: user._id, username, password });
+    await AccountDataUser.create({ userID: user._id, username, password });
 
     return res.status(200).json({
       message: "thêm người dùng thành công",
     });
   } catch (err) {
+    console.log("====================================");
+    console.log(err);
+    console.log("====================================");
     res.status(500).json({
       message: "Error connecting to the database !!!",
     });

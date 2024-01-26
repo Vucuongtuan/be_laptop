@@ -196,6 +196,7 @@ const loginAccountApp = async (req, res) => {
 
     res.status(200).json({
       token,
+      username: account.username,
       userId: account._id,
       expiresIn: 3600,
     });

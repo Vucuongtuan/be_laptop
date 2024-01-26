@@ -1,5 +1,6 @@
 const { AccountDataUser, User, Cart } = require("../models");
-
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const getDataAccountUser = async (req, res, next) => {
   try {
     await User.find({})
@@ -165,10 +166,50 @@ const deleteAccountUser = async (req, res, next) => {
     });
   }
 };
+
+const loginAccountApp = async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    if (!username || !password) {
+      return res.status(400).json({
+        message: "Vui lòng nhập tên đăng nhập và mật khẩu.",
+      });
+    }
+    const account = await AccountDataUser.findOne({ username });
+
+    if (!account) {
+      return res.status(401).json({
+        message: "Tài khoản không tồn tại.",
+      });
+    }
+    const isPasswordValid = await bcrypt.compare(password, account.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        message: "Mật khẩu không đúng.",
+      });
+    }
+    const token = jwt.sign(
+      { username: account.username, userId: account._id },
+      process.env.PASS_JWT,
+      { expiresIn: "1h" }
+    );
+
+    res.status(200).json({
+      token,
+      userId: account._id,
+      expiresIn: 3600,
+    });
+  } catch {
+    return res.status(500).json({
+      message: "Lỗi kết nối với Database !!!",
+    });
+  }
+};
 module.exports = {
   getDataAccountUser,
   getDataByIDAccountUser,
   postDataAccountUser,
   putDataAccountUser,
   deleteAccountUser,
+  loginAccountApp,
 };

@@ -182,7 +182,7 @@ const loginAccountApp = async (req, res) => {
         message: "Tài khoản không tồn tại.",
       });
     }
-    const isPasswordValid = await bcrypt.compare(password, account.password);
+    const isPasswordValid = await AccountDataUser.findOne({ password });
     if (!isPasswordValid) {
       return res.status(401).json({
         message: "Mật khẩu không đúng.",

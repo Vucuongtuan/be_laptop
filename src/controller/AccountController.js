@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const getDataAccountUser = async (req, res, next) => {
   try {
-    await AccountDataUser.find({})
-      .populate("userID")
+    await User.find({})
+      .populate("AccountId")
       .then((user) => {
         if (user.length <= 0) {
           return res.json({ message: "Không có người dùng nào" });

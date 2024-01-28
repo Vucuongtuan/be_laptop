@@ -17,6 +17,29 @@ const getBannerQc = async (req, res, next) => {
     });
   }
 };
+const getBannerQcLimit = async (req, res, next) => {
+  try {
+    const limit = parseInt(req.query.limit) || 8;
+
+    let getData = await BannerQc.find({}).limit(limit);
+
+    if (getData.length === 0) {
+      return res.json({
+        message: "Không có dữ liệu nào ",
+      });
+    }
+    return res.json({
+      total: getData.length,
+      data: getData,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Lỗi kết nối đến server !!!",
+      err: err,
+    });
+  }
+};
+
 const postBannerQc = async (req, res, next) => {
   try {
     const { thumbnails, description } = req.body;
@@ -81,4 +104,5 @@ module.exports = {
   postBannerQc,
   updateBannerQc,
   deleteBannerQc,
+  getBannerQcLimit,
 };

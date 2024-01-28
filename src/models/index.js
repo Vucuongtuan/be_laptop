@@ -12,12 +12,12 @@ const UserSchema = new Schema(
     gender: { type: String, enum: ["Nam", "Nữ"] },
     total: Number,
     cartID: { type: Schema.Types.ObjectId, ref: "cart" },
+    AccountId: { type: Schema.Types.ObjectId, ref: "accountUser" },
   },
   { collection: "User" }
 );
 const AccountUserSchema = new Schema(
   {
-    userID: { type: Schema.Types.ObjectId, ref: "User" },
     username: String,
     password: String,
     date: { type: Date, default: Date.now },

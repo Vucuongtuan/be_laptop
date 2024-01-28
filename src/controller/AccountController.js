@@ -3,8 +3,8 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const getDataAccountUser = async (req, res, next) => {
   try {
-    await User.find({})
-      .populate("accountUser")
+    await AccountDataUser.find({})
+      .populate("userID")
       .then((user) => {
         if (user.length <= 0) {
           return res.json({ message: "Không có người dùng nào" });
@@ -45,29 +45,33 @@ const getDataByIDAccountUser = async (req, res, next) => {
         message: "Thiếu thông tin tìm kiếm vui lòng nhập lại !!",
       });
     }
-    await User.findOne(query)
-      .populate("accountUser")
-      .populate("cart")
-      .exec((err, user) => {
-        if (err) {
-          console.log("====================================");
-          console.log(err);
-          console.log("====================================");
-          res.status(500).json({ message: "Không thể lấy dữ liệu người dùng" });
-        } else if (!user) {
-          res.status(404).json({ message: "Không tìm thấy người dùng." });
-        } else {
-          return res.json({
-            data: user,
-          });
-        }
-      });
+
+    console.log("====================================");
+    console.log(query);
+    console.log("====================================");
+
+    const user = await User.findOne(query)
+      .populate("cartID")
+      .populate("AccountId")
+      .exec();
+
+    if (!user) {
+      return res.status(404).json({ message: "Không tìm thấy người dùng." });
+    }
+
+    return res.json({
+      data: user,
+    });
   } catch (err) {
+    console.log("====================================");
+    console.log(err);
+    console.log("====================================");
     return res.status(500).json({
       message: "Error connecting to the database !!! 123",
     });
   }
 };
+
 const postDataAccountUser = async (req, res, next) => {
   try {
     const {
@@ -89,7 +93,11 @@ const postDataAccountUser = async (req, res, next) => {
       address: address,
       items: items,
     });
-    const user = await User.create({
+    const account = await AccountDataUser.create({
+      username,
+      password,
+    });
+    await User.create({
       fullName,
       age,
       address,
@@ -98,9 +106,8 @@ const postDataAccountUser = async (req, res, next) => {
       gender,
       total,
       cartID: cart._id,
+      AccountId: account._id,
     });
-
-    await AccountDataUser.create({ userID: user._id, username, password });
 
     return res.status(200).json({
       message: "thêm người dùng thành công",

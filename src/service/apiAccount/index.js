@@ -14,7 +14,7 @@ const {
 } = require("../../controller/AccountController");
 
 accountAPI.get("/", getDataAccountUser);
-accountAPI.get("/id", getDataByIDAccountUser);
+accountAPI.get("/query", getDataByIDAccountUser);
 accountAPI.post("/", checkAccountUser, postDataAccountUser);
 accountAPI.put("/update_id", putDataAccountUser);
 accountAPI.delete("/delete_id", deleteAccountUser);

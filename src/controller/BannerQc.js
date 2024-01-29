@@ -4,7 +4,7 @@ const path = require("path");
 const { BannerQc } = require("../models/");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, "public/assets/banner");
+    cb(null, "src/assets/image/banner");
   },
   filename: function (req, file, cb) {
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage }).single("thumbnails");
+const upload = multer({ storage: storage }).single("thumbnail");
 const getBannerQc = async (req, res, next) => {
   try {
     let getData = await BannerQc.find({});
@@ -76,7 +76,7 @@ const postBannerQc = async (req, res, next) => {
       }
 
       const createData = await BannerQc.create({
-        thumbnails: thumbnailPath,
+        thumbnail: thumbnailPath,
         description,
       });
 

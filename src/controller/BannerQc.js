@@ -7,11 +7,7 @@ const storage = multer.diskStorage({
     cb(null, "src/assets/image/banner");
   },
   filename: function (req, file, cb) {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(
-      null,
-      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
-    );
+    cb(null, "banner" + "_" + file.originalname);
   },
 });
 
@@ -67,16 +63,16 @@ const postBannerQc = async (req, res, next) => {
       }
 
       const { description } = req.body;
-      const thumbnailPath = req.file ? req.file.path : null;
+      const thumbnail = req.file.filename;
 
-      if (!thumbnailPath) {
+      if (!thumbnail) {
         return res.status(400).json({
           message: "Thiếu hình ảnh.",
         });
       }
 
       const createData = await BannerQc.create({
-        thumbnail: thumbnailPath,
+        thumbnail: process.env.BASE_URL + "/" + thumbnail,
         description,
       });
 

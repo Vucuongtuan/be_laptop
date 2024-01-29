@@ -18,11 +18,11 @@ const getProduct = async (req, res, next) => {
   }
 };
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "assets/images");
+  destination: function (req, file, cb) {
+    cb(null, "src/assets/image/laptop");
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    cb(null, "laptop" + "-" + originalname);
   },
 });
 
@@ -59,7 +59,7 @@ const postProduct = async (req, res, next) => {
 
       const thumbnails = req.files.map((file) => ({
         type: file.mimetype,
-        path: `https://vtc-be-laptop.onrender.com/assets/images/${file.filename}`,
+        path: `https://vtc-be-laptop.onrender.com/assets/images/laptop/${file.filename}`,
       }));
 
       const postProduct = await ProductLaptop.create({

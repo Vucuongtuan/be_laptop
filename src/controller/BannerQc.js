@@ -72,7 +72,7 @@ const postBannerQc = async (req, res, next) => {
       }
 
       const createData = await BannerQc.create({
-        thumbnail: process.env.BASE_URL + "/" + thumbnail,
+        thumbnail: process.env.BASE_URL + "/image/banner/" + thumbnail,
         description,
       });
 

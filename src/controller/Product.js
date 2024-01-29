@@ -1,9 +1,51 @@
 const multer = require("multer");
 const { ProductLaptop } = require("../models/");
 const path = require("path");
+const LIMIT = 10;
 const getProduct = async (req, res, next) => {
   try {
-    const getProduct = await ProductLaptop.find({});
+    const { page, limit } = req.query;
+    const pageNumber = parseInt(page) || 1;
+    const getProduct = await ProductLaptop.find({})
+      .skip((pageNumber - 1) * LIMIT)
+      .limit(LIMIT);
+
+    if (getProduct.length === 0) {
+      return res.status(404).json({
+        message: "Không có sản phẩm nào!!!",
+      });
+    }
+    return res.json(getProduct);
+  } catch (err) {
+    return res.status(500).json({
+      message: "Kết nối thất bại thử lại sau !!!",
+    });
+  }
+};
+const getProductTrend = async (req, res, next) => {
+  try {
+    const products = await ProductLaptop.find({})
+      .sort({ totalPurchases: -1 })
+      .limit(5);
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        message: "Không có sản phẩm nào!!!",
+      });
+    }
+
+    return res.json(products);
+  } catch (err) {
+    return res.status(500).json({
+      message: "Kết nối thất bại thử lại sau !!!",
+    });
+  }
+};
+
+const getByIdProduct = async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const getProduct = await ProductLaptop.findOne({ _id: id });
 
     if (getProduct.length === 0) {
       return res.status(404).json({
@@ -184,4 +226,6 @@ module.exports = {
   updateProduct,
   deleteProduct,
   searchProduct,
+  getByIdProduct,
+  getProductTrend,
 };

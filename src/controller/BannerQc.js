@@ -1,5 +1,21 @@
+const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
 const { BannerQc } = require("../models/");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "public/assets/banner");
+  },
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(
+      null,
+      file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname)
+    );
+  },
+});
 
+const upload = multer({ storage: storage }).single("thumbnails");
 const getBannerQc = async (req, res, next) => {
   try {
     let getData = await BannerQc.find({});
@@ -42,42 +58,76 @@ const getBannerQcLimit = async (req, res, next) => {
 
 const postBannerQc = async (req, res, next) => {
   try {
-    const { thumbnails, description } = req.body;
-    let createData = await BannerQc.create({
-      thumbnails,
-      description,
-    });
+    upload(req, res, async function (err) {
+      if (err) {
+        return res.status(500).json({
+          message: "Lỗi khi tải lên hình ảnh.",
+          error: err,
+        });
+      }
 
-    return res.json({
-      message: "Thêm mới banner thành công .",
-      data: createData,
+      const { description } = req.body;
+      const thumbnailPath = req.file ? req.file.path : null;
+
+      if (!thumbnailPath) {
+        return res.status(400).json({
+          message: "Thiếu hình ảnh.",
+        });
+      }
+
+      const createData = await BannerQc.create({
+        thumbnails: thumbnailPath,
+        description,
+      });
+
+      return res.json({
+        message: "Thêm mới banner thành công.",
+        data: createData,
+      });
     });
   } catch (err) {
     res.status(500).json({
       message: "Lỗi kết nối đến server !!!",
-      err: err,
+      error: err,
     });
   }
 };
 const updateBannerQc = async (req, res, next) => {
   try {
-    const _id = req.query.id;
-    const { thumbnail, description } = req.body;
-    let getData = await BannerQc.findByIdAndUpdate(_id, {
-      thumbnail,
-      description,
-    });
+    const _id = req.params.id;
+    const { description } = req.body;
+    let thumbnailPath = null;
+    if (req.file) {
+      thumbnailPath = req.file.path;
 
-    if (getData.length === 0) {
-      res.json({
-        message: "Không có dữ liệu nào ",
+      const oldData = await BannerQc.findById(_id);
+      if (oldData && oldData.thumbnail) {
+        fs.unlinkSync(oldData.thumbnail);
+      }
+    }
+    const updatedData = await BannerQc.findByIdAndUpdate(
+      _id,
+      {
+        thumbnail: thumbnailPath,
+        description,
+      },
+      { new: true }
+    );
+
+    if (!updatedData) {
+      return res.status(404).json({
+        message: "Không tìm thấy dữ liệu để cập nhật.",
       });
     }
-    res.json(getData);
+
+    return res.json({
+      message: "Cập nhật banner thành công.",
+      data: updatedData,
+    });
   } catch (err) {
     res.status(500).json({
       message: "Lỗi kết nối đến server !!!",
-      err: err,
+      error: err,
     });
   }
 };

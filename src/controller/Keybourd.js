@@ -7,11 +7,34 @@ const messageError = (err) => {
     err: err,
   });
 };
+const LIMIT = 10;
 const getKeybourd = async (req, res, next) => {
   try {
-    const getData = await Keybourd.find({});
+    const { page } = req.query;
+    const pageNumber = parseInt(page) || 1;
+    const totalDocuments = await Keybourd.countDocuments({});
+    const totalPages = Math.ceil(totalDocuments / LIMIT);
+    const getData = await Keybourd.find({})
+      .skip((pageNumber - 1) * LIMIT)
+      .limit(LIMIT);
     if (getData.length <= 0) {
       return res.status(404).json("Không có dữ liệu");
+    }
+    return res.json({
+      total: getData.length,
+      totalPage: totalPages,
+      data: getData,
+    });
+  } catch (err) {
+    return messageError(err);
+  }
+};
+const getKeybourdById = async (req, res, next) => {
+  try {
+    const { id } = req.query;
+    const getData = await Keybourd.findOne({ _id: id });
+    if (getData.length <= 0) {
+      return res.status(404).json("Không có sản phẩm nào");
     }
     return res.json(getData);
   } catch (err) {
@@ -19,11 +42,11 @@ const getKeybourd = async (req, res, next) => {
   }
 };
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "assets/images/keybourd"); // Thư mục lưu trữ hình ảnh của keybourd
+  destination: function (req, file, cb) {
+    cb(null, "src/assets/image/keyboard");
   },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname));
+  filename: function (req, file, cb) {
+    cb(null, "keyboard" + "-" + originalname);
   },
 });
 
@@ -63,7 +86,7 @@ const postKeybourd = async (req, res, next) => {
 
       const thumbnails = req.files.map((file) => ({
         type: file.mimetype,
-        path: `https://vtc-be-laptop.onrender.com/assets/images/keybourd/${file.filename}`, // Lưu đường dẫn tới file trên server
+        path: `https://vtc-be-laptop.onrender.com/assets/images/keyboard/${file.filename}`,
       }));
 
       const postData = await Keybourd.create({
@@ -188,4 +211,5 @@ module.exports = {
   postKeybourd,
   updateKeybourd,
   deleteKeybourd,
+  getKeybourdById,
 };

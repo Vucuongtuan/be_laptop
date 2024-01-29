@@ -1,13 +1,48 @@
+const multer = require("multer");
 const { Mouse } = require("../models/");
-const upload = require("../middleware/uploadImage/");
 
+const LIMIT = 10;
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "src/assets/image/mouse");
+  },
+  filename: function (req, file, cb) {
+    cb(null, "mouse" + "-" + originalname);
+  },
+});
+
+const upload = multer({ storage: storage }).array("thumbnail", 7);
 const getDataMouse = async (req, res, next) => {
   try {
-    const getData = await Mouse.find({});
-    if (getData.length === 0) {
+    const { page } = req.query;
+    const pageNumber = parseInt(page) || 1;
+    const totalDocuments = await Mouse.countDocuments({});
+    const totalPages = Math.ceil(totalDocuments / LIMIT);
+    const getData = await Mouse.find({})
+      .skip((pageNumber - 1) * LIMIT)
+      .limit(LIMIT);
+    if (getData.length <= 0) {
       return res.status(404).json({
         message: "Không có dữ liệu !!",
       });
+    }
+    return res.json({
+      total: getData.length,
+      totalPage: totalPages,
+      data: getData,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Lỗi kết nối vui lòng thử lại sau",
+    });
+  }
+};
+const getDataById = async () => {
+  try {
+    const { id } = req.query;
+    const getData = await Mouse.findOne({ _id: id });
+    if (getData.length <= 0) {
+      return res.status(404).json("Không có sản phẩm nào !!!");
     }
     return res.json(getData);
   } catch (err) {
@@ -118,4 +153,5 @@ module.exports = {
   updateDataMouse,
   deleteDataMouse,
   searchDataMouse,
+  getDataById,
 };

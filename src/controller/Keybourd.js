@@ -10,13 +10,13 @@ const messageError = (err) => {
 const LIMIT = 10;
 const getKeybourd = async (req, res, next) => {
   try {
-    const { page } = req.query;
+    const { page, limit } = req.query;
     const pageNumber = parseInt(page) || 1;
     const totalDocuments = await Keybourd.countDocuments({});
     const totalPages = Math.ceil(totalDocuments / LIMIT);
     const getData = await Keybourd.find({})
       .skip((pageNumber - 1) * LIMIT)
-      .limit(LIMIT);
+      .limit(limit || LIMIT);
     if (getData.length <= 0) {
       return res.status(404).json("Không có dữ liệu");
     }

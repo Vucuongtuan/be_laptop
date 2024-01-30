@@ -14,13 +14,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).array("thumbnail", 7);
 const getDataMouse = async (req, res, next) => {
   try {
-    const { page } = req.query;
+    const { page, limit } = req.query;
     const pageNumber = parseInt(page) || 1;
     const totalDocuments = await Mouse.countDocuments({});
     const totalPages = Math.ceil(totalDocuments / LIMIT);
     const getData = await Mouse.find({})
       .skip((pageNumber - 1) * LIMIT)
-      .limit(LIMIT);
+      .limit(limit || LIMIT);
     if (getData.length <= 0) {
       return res.status(404).json({
         message: "Không có dữ liệu !!",

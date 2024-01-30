@@ -8,7 +8,7 @@ const getProduct = async (req, res, next) => {
     const pageNumber = parseInt(page) || 1;
     const getProduct = await ProductLaptop.find({})
       .skip((pageNumber - 1) * LIMIT)
-      .limit(LIMIT);
+      .limit(limit || LIMIT);
 
     if (getProduct.length === 0) {
       return res.status(404).json({

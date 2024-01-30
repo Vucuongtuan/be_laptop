@@ -64,6 +64,8 @@ const postKeybourd = async (req, res, next) => {
       const {
         name,
         layout,
+        description,
+        totalPurchases,
         switch_key,
         pin,
         personal,
@@ -93,6 +95,8 @@ const postKeybourd = async (req, res, next) => {
         name,
         thumbnail: thumbnails,
         layout,
+        description,
+        totalPurchases,
         switch_key,
         pin,
         personal,
@@ -134,6 +138,8 @@ const updateKeybourd = async (req, res, next) => {
     const {
       name,
       thumbnail,
+      description,
+      totalPurchases,
       layout,
       switch_key,
       pin,
@@ -153,11 +159,13 @@ const updateKeybourd = async (req, res, next) => {
       discount_percent,
       inventory,
     } = req.body;
-    const updateData = await Keybourd.findByIdAndUpdate(id, {
+    await Keybourd.findByIdAndUpdate(id, {
       name,
       thumbnail,
       layout,
       switch_key,
+      description,
+      totalPurchases,
       pin,
       personal,
       foam,

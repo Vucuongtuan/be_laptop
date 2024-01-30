@@ -218,6 +218,8 @@ const KeyboardSchema = new Schema(
       },
     ],
     layout: String,
+    description: String,
+    totalPurchases: String,
     switch_key: String,
     pin: String,
     personal: String,

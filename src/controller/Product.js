@@ -6,6 +6,8 @@ const getProduct = async (req, res, next) => {
   try {
     const { page, limit } = req.query;
     const pageNumber = parseInt(page) || 1;
+    const totalDocuments = await Mouse.countDocuments({});
+    const totalPages = Math.ceil(totalDocuments / LIMIT);
     const getProduct = await ProductLaptop.find({})
       .skip((pageNumber - 1) * LIMIT)
       .limit(limit || LIMIT);
@@ -15,7 +17,11 @@ const getProduct = async (req, res, next) => {
         message: "Không có sản phẩm nào!!!",
       });
     }
-    return res.json(getProduct);
+    return res.json({
+      total: getProduct.length,
+      totalPage: totalPages,
+      data: getProduct,
+    });
   } catch (err) {
     return res.status(500).json({
       message: "Kết nối thất bại thử lại sau !!!",

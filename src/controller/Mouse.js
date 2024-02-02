@@ -37,6 +37,28 @@ const getDataMouse = async (req, res, next) => {
     });
   }
 };
+const getMouseToBrand = async (req, res) => {
+  try {
+    const { id_brand, page, limit } = req.query;
+    const pageNumber = parseInt(page) || 1;
+    const getData = await Mouse.find({ product_brand: id_brand })
+      .skip((pageNumber - 1) * LIMIT)
+      .limit(limit || LIMIT);
+
+    if (getData.length <= 0) {
+      return res.status(404).json("Không có sản phẩm nào");
+    }
+    return res.json({
+      total: getData.length,
+      totalPage: Math.ceil(getData.length / LIMIT),
+      data: getData,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Kết nối thất bại thử lại sau !!!",
+    });
+  }
+};
 const getDataById = async () => {
   try {
     const { id } = req.query;
@@ -154,4 +176,5 @@ module.exports = {
   deleteDataMouse,
   searchDataMouse,
   getDataById,
+  getMouseToBrand,
 };

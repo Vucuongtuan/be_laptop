@@ -41,7 +41,9 @@ const getProductToBrand = async (req, res) => {
       .limit(limit || LIMIT);
 
     if (getData.length <= 0) {
-      return res.status(404).json({ message: "Không có sản phẩm nào" });
+      return res
+        .status(404)
+        .json({ message: "Không có sản phẩm nào", status: 404 });
     }
     return res.json({
       total: getData.length,

@@ -238,6 +238,24 @@ const deleteKeybourd = async (req, res, next) => {
     return messageError(error);
   }
 };
+const selectKeyboardPrice = async (req, res, next) => {
+  try {
+    const { min, max } = req.query;
+    const data = await Keybourd.find({ total: { $gte: min, $lte: max } });
+    if (data.length <= 0) {
+      return res.status(404).json("Khong có sản phẩm nào");
+    }
+    return res.json({
+      total: data.lenght,
+      totalPage: data.length / 10,
+      data: data,
+    });
+  } catch (err) {
+    return res.status(500).json({
+      message: "Kết nối thất bại thử lại sau !!!",
+    });
+  }
+};
 module.exports = {
   getKeybourd,
   postKeybourd,
@@ -245,4 +263,5 @@ module.exports = {
   deleteKeybourd,
   getKeybourdById,
   getKeyboardToBrand,
+  selectKeyboardPrice,
 };

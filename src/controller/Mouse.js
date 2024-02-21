@@ -171,6 +171,31 @@ const searchDataMouse = async (req, res, next) => {
     return res.status(500).send("Internal Server Error");
   }
 };
+const selectMousePrice = async (req, res, next) => {
+  try {
+    const { min, max } = req.query;
+    const minPrice = parseInt(min);
+    const maxPrice = parseInt(max);
+    const data = await Mouse.find({
+      total: { $gte: minPrice, $lte: maxPrice },
+    });
+    console.log(data);
+    if (data.length <= 0) {
+      return res.status(404).json("Không có sản phẩm nào");
+    }
+    return res.json({
+      total: data.length,
+      totalPage: Math.ceil(data.length / 10),
+      data: data,
+    });
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json({
+      message: "Kết nối thất bại thử lại sau !!!",
+    });
+  }
+};
+
 module.exports = {
   getDataMouse,
   postDataMouse,
@@ -179,4 +204,5 @@ module.exports = {
   searchDataMouse,
   getDataById,
   getMouseToBrand,
+  selectMousePrice,
 };

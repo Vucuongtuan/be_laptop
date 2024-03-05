@@ -88,6 +88,7 @@ const postKeybourd = async (req, res, next) => {
       const {
         name,
         layout,
+        brands,
         description,
         totalPurchases,
         switch_key,
@@ -117,6 +118,7 @@ const postKeybourd = async (req, res, next) => {
 
       const postData = await Keybourd.create({
         name,
+        brands,
         thumbnail: thumbnails,
         layout,
         description,

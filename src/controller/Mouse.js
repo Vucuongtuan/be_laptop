@@ -82,7 +82,15 @@ const postDataMouse = async (req, res, next) => {
         console.error("Error uploading images:", err.message);
         return res.status(500).send("Internal Server Error");
       }
-      const { name, total, guarantee, details } = req.body;
+      const {
+        name,
+        total,
+        guarantee,
+        details,
+        description,
+        totalPurchases,
+        brands,
+      } = req.body;
       const imagePaths = req.files
         ? req.files.map((file) => ({
             url: file.path.replace("assets", ""),
@@ -100,7 +108,9 @@ const postDataMouse = async (req, res, next) => {
         total,
         guarantee,
         details,
-
+        description,
+        totalPurchases,
+        brands,
         discount_percent,
         inventory,
         thumbnail: imagePaths,

@@ -70,6 +70,7 @@ const ProductLaptopSchema = new Schema(
     name: String,
     total: Number,
     description: String,
+    brands: String,
     thumbnail: [
       {
         type: String,
@@ -142,6 +143,7 @@ const MouseSchema = new Schema(
     guarantee: String,
     description: String,
     totalPurchases: Number,
+    brands: String,
     thumbnail: [
       {
         type: String,
@@ -212,6 +214,7 @@ const KeyboardSchema = new Schema(
   {
     name: String,
     total: Number,
+    brands: String,
     thumbnail: [
       {
         type: String,

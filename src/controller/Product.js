@@ -114,6 +114,7 @@ const postProduct = async (req, res, next) => {
       }
 
       const {
+        brands,
         name,
         total,
         description,
@@ -140,6 +141,7 @@ const postProduct = async (req, res, next) => {
 
       const postProduct = await ProductLaptop.create({
         name,
+        brands,
         total,
         description,
         thumbnail: thumbnails,

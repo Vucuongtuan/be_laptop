@@ -98,78 +98,102 @@ const storage = multer.diskStorage({
     cb(null, "src/assets/image/laptop");
   },
   filename: function (req, file, cb) {
-    cb(null, "laptop" + "-" + originalname);
+    cb(null, "laptop" + "-" + file.originalname);
   },
 });
 
 const upload = multer({ storage: storage }).array("thumbnail", 7);
+// const postProduct = async (req, res, next) => {
+//   try {
+//     upload(req, res, async function (err) {
+//       if (err) {
+//         return res.status(500).json({
+//           message: "Lỗi khi tải lên hình ảnh.",
+//           error: err,
+//         });
+//       }
+
+//       const { data } = req.body;
+//       const thumbnail = req.file.filename;
+//       console.log(data);
+//       if (!thumbnail) {
+//         return res.status(400).json({
+//           message: "Thiếu hình ảnh.",
+//         });
+//       }
+
+//       const postProduct = await ProductLaptop.create({
+//         thumbnail: process.env.BASE_URL + "/image/laptop/" + thumbnail,
+//         name: data.name,
+//         brands: data.brands,
+//         total: data.total,
+//         description: data.description,
+//         totalPurchases: data.totalPurchases,
+//         details: data.details,
+
+//         discount_percent: data.discount_percent,
+//         inventory: data.inventory,
+//         product_category: data.product_category,
+//         product_brand: data.product_brand,
+//         product_content: data.product_content,
+//       });
+
+//       return res.json({
+//         message: "Thêm mới laptop thành công.",
+//         data: postProduct,
+//       });
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       message: "Lỗi kết nối đến server !!!",
+//       error: err,
+//     });
+//   }
+// };
 const postProduct = async (req, res, next) => {
   try {
-    upload(req, res, async function (err) {
-      if (err) {
-        return res.status(500).json({
-          message: "Lỗi khi upload hình ảnh",
-          error: err,
-        });
-      }
+    const data = req.body.data;
+    console.log("====================================");
+    console.log(req.body);
+    console.log("====================================");
+    let thumbnails = [];
+    if (req.file) {
+      thumbnails = [
+        {
+          data: req.file.buffer,
+          contentType: req.file.mimetype,
+        },
+      ];
+    }
+    const postProduct = await ProductLaptop.create({
+      name: data.name,
+      brands: data.brands,
+      total: data.total,
+      description: data.description,
+      thumbnail: thumbnails,
+      totalPurchases: data.totalPurchases,
+      details: data.details,
 
-      const {
-        brands,
-        name,
-        total,
-        description,
-        totalPurchases,
-        details,
-        keyboard,
-        audio,
-        wifi_bluetooth,
-        cam,
-        system,
-        weight,
-        size,
-        manufacturer,
-        discount_percent,
-        inventory,
-        id_category,
-        id_product_brand,
-      } = req.body;
-
-      const thumbnails = req.files.map((file) => ({
-        type: file.mimetype,
-        path: `https://vtc-be-laptop.onrender.com/assets/images/laptop/${file.filename}`,
-      }));
-
-      const postProduct = await ProductLaptop.create({
-        name,
-        brands,
-        total,
-        description,
-        thumbnail: thumbnails,
-        totalPurchases,
-        details,
-        keyboard,
-        audio,
-        wifi_bluetooth,
-        cam,
-        system,
-        weight,
-        size,
-        manufacturer,
-        discount_percent,
-        inventory,
-        product_category: id_category,
-        product_brand: id_product_brand,
-      });
-
-      return res.json({
-        product: postProduct,
-        message: "Thêm mới sản phẩm thành công ",
-      });
+      discount_percent: data.discount_percent,
+      inventory: data.inventory,
+      product_category: data.product_category,
+      product_brand: data.product_brand,
+      product_content: data.product_content,
+    });
+    console.log("====================================");
+    console.log(postProduct);
+    console.log("====================================");
+    return res.json({
+      product: postProduct,
+      message: "Thêm mới sản phẩm thành công ",
     });
   } catch (err) {
+    console.log("====================================");
+    console.log(err);
+    console.log("====================================");
     return res.json({
       message: "Kết nối thất bại thử lại sau !!!",
-      error: err,
+      error: err.toString(),
     });
   }
 };

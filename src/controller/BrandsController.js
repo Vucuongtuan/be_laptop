@@ -34,11 +34,8 @@ const getBrands = async (req, res, next) => {
 };
 const getBrandsType = async (req, res, next) => {
   try {
-<<<<<<< HEAD
-    const { type } = req.query;
-=======
-    const {type} = req.query;
->>>>>>> 6ebf8e1cca8f3f7ceceec6aa40c85b6acbd6fdda
+    const { type } = req.body;
+
     const getData = await Brands.find({ type: type });
     if (getData.length <= 0) {
       return res.status(404).json({

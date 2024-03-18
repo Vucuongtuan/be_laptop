@@ -34,8 +34,8 @@ const getBrands = async (req, res, next) => {
 };
 const getBrandsType = async (req, res, next) => {
   try {
-    const elementType = req.params.elementType;
-    const getData = await Brands.find({ type: elementType });
+    const { type } = req.query;
+    const getData = await Brands.find({ type: type });
     if (getData.length <= 0) {
       return res.status(404).json({
         message: "Không tìm thấy sản phẩm nào",

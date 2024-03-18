@@ -9,7 +9,7 @@ const {
 const routerBrands = express.Router();
 
 routerBrands.get("/", getBrands);
-routerBrands.get("/type", getBrandsType);
+routerBrands.get("/q", getBrandsType);
 routerBrands.post("/", postBrands);
 routerBrands.put("/id", updateBrands);
 routerBrands.delete("/id", deleteBrands);

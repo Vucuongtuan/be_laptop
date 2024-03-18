@@ -32,6 +32,24 @@ const getBrands = async (req, res, next) => {
     return message(err);
   }
 };
+const getBrandsType = async (req, res, next) => {
+  try {
+    const elementType = req.params.elementType;
+    const getData = await Brands.find({ type: elementType });
+    if (getData.length <= 0) {
+      return res.status(404).json({
+        message: "Không tìm thấy sản phẩm nào",
+      });
+    }
+    return res.json(getData);
+  } catch (err) {
+    return res.status(500).json({
+      message: "Lỗi không xác định",
+      error: err.message,
+    });
+  }
+};
+
 const postBrands = async (req, res, next) => {
   try {
     upload(req, res, async function (err) {
@@ -113,4 +131,5 @@ module.exports = {
   postBrands,
   updateBrands,
   deleteBrands,
+  getBrandsType,
 };

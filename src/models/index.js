@@ -293,7 +293,6 @@ const PostContentSchema = new Schema(
 );
 const User = mongoose.model("User", UserSchema);
 const Brands = mongoose.model("brands", BrandsSchema);
-const AccountDataUser = mongoose.model("accountUser", AccountUserSchema);
 const ProductTypeLaptop = mongoose.model(
   "type_product_laptop",
   ProductTypeLaptopSchema
@@ -311,7 +310,6 @@ const KeybourdType = mongoose.model(
 const PostContent = mongoose.model("post_content", PostContentSchema);
 module.exports = {
   User,
-  AccountDataUser,
   ProductTypeLaptop,
   ProductLaptop,
   MouseType,

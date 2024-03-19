@@ -1,6 +1,8 @@
 const { AccountDataUser, User, Cart } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const nodemailer = require("nodemailer");
+const OTP = require("otp-generator");
 const getDataAccountUser = async (req, res, next) => {
   try {
     await User.find({})
@@ -71,7 +73,51 @@ const getDataByIDAccountUser = async (req, res, next) => {
     });
   }
 };
+const generateOTP = () => {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+};
 
+const sendOTP = async (email, otp) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "vucuongtuan03@gmail.com",
+        pass: "0123456789c",
+      },
+    });
+
+    const mailOptions = {
+      from: "vucuongtuan03@gmail.com",
+      to: email,
+      subject: "OTP xác thực đăng nhập",
+      text: `Mã Otp của bạn là: ${otp}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+  } catch (error) {
+    throw new Error("Error sending OTP email");
+  }
+};
+
+const sendOTPToEmailMiddleware = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const otp = generateOTP();
+    await sendOTP(email, otp);
+    req.session.otp = otp;
+    req.session.email = email;
+
+    return res.status(200).json({
+      message: "Mã OTP đã được gửi đến email.",
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({
+      message: "Error sending OTP.",
+    });
+  }
+};
 const postDataAccountUser = async (req, res, next) => {
   try {
     const {
@@ -82,7 +128,6 @@ const postDataAccountUser = async (req, res, next) => {
       phone,
       gender,
       total,
-      username,
       password,
       items,
     } = req.body;
@@ -93,15 +138,13 @@ const postDataAccountUser = async (req, res, next) => {
       address: address,
       items: items,
     });
-    const account = await AccountDataUser.create({
-      username,
-      password,
-    });
+
     await User.create({
       fullName,
       age,
       address,
       email,
+      password,
       phone,
       gender,
       total,
@@ -221,4 +264,5 @@ module.exports = {
   putDataAccountUser,
   deleteAccountUser,
   loginAccountApp,
+  sendOTPToEmailMiddleware,
 };

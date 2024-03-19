@@ -11,11 +11,14 @@ const {
   putDataAccountUser,
   deleteAccountUser,
   loginAccountApp,
+  sendOTPToEmailMiddleware,
 } = require("../../controller/AccountController");
+const verifyOTP = require("../../middleware/checkOTP");
 
 accountAPI.get("/", getDataAccountUser);
 accountAPI.get("/query", getDataByIDAccountUser);
-accountAPI.post("/", checkAccountUser, postDataAccountUser);
+accountAPI.post("/send-otp", sendOTPToEmailMiddleware);
+accountAPI.post("/", verifyOTP, postDataAccountUser);
 accountAPI.put("/update_id", putDataAccountUser);
 accountAPI.delete("/delete_id", deleteAccountUser);
 

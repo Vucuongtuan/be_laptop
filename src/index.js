@@ -26,6 +26,11 @@ app.get("/", (req, res) => {
   };
   res.render("index", data);
 });
+
+app.get("/protected-route", verifyToken, (req, res) => {
+  res.json({ message: "Route được bảo vệ, token hợp lệ." });
+});
+
 //static file image
 app.use(
   "/image/banner",

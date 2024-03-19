@@ -7,23 +7,16 @@ const UserSchema = new Schema(
     fullName: String,
     age: Number,
     address: String,
+    password: String,
     email: String,
     phone: { type: Number, default: null },
     gender: { type: String, enum: ["Nam", "Nữ"] },
     total: Number,
     cartID: { type: Schema.Types.ObjectId, ref: "cart" },
-    AccountId: { type: Schema.Types.ObjectId, ref: "accountUser" },
   },
   { collection: "User" }
 );
-const AccountUserSchema = new Schema(
-  {
-    username: String,
-    password: String,
-    date: { type: Date, default: Date.now },
-  },
-  { collection: "accountUser" }
-);
+
 const CartSchema = new Schema(
   {
     // userID: {

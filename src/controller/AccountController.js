@@ -176,35 +176,36 @@ const deleteAccountUser = async (req, res, next) => {
 
 const loginAccountApp = async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if (!username || !password) {
+    const { email, password } = req.body;
+    if (!email || !password) {
       return res.status(400).json({
         message: "Vui lòng nhập tên đăng nhập và mật khẩu.",
       });
     }
-    const account = await AccountDataUser.findOne({ username });
+    const emailCheck = await User.findOne({ email });
 
-    if (!account) {
+    if (!emailCheck) {
       return res.status(401).json({
         message: "Tài khoản không tồn tại.",
       });
     }
-    const isPasswordValid = await AccountDataUser.findOne({ password });
+    const isPasswordValid = await User.findOne({ password });
     if (!isPasswordValid) {
       return res.status(401).json({
         message: "Mật khẩu không đúng.",
       });
     }
     const token = jwt.sign(
-      { username: account.username, userId: account._id },
+      { email: emailCheck.email, userId: emailCheck._id },
       process.env.PASS_JWT,
       { expiresIn: "1h" }
     );
 
     res.status(200).json({
       token,
-      username: account.username,
-      userId: account._id,
+      username: emailCheck.username,
+      email: emailCheck.email,
+      userId: emailCheck._id,
       expiresIn: 3600,
     });
   } catch {

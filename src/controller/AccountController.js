@@ -2,7 +2,7 @@ const { AccountDataUser, User, Cart } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
-const OTP = require("otp-generator");
+const otpGenerator = require("otp-generator");
 const getDataAccountUser = async (req, res, next) => {
   try {
     await User.find({})

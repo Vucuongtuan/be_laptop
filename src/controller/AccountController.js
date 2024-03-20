@@ -73,37 +73,48 @@ const getDataByIDAccountUser = async (req, res, next) => {
     });
   }
 };
-const generateOTP = () => {
-  return Math.floor(100000 + Math.random() * 900000).toString();
-};
-
 const sendOTP = async (email, otp) => {
   try {
     const transporter = nodemailer.createTransport({
       service: "gmail",
+      host: process.env.MAIL_SMTP,
+      port: process.env.MAIL_PORT,
+      secure: false,
       auth: {
-        user: "vucuongtuan03@gmail.com",
-        pass: "0123456789c",
+        user: process.env.AUTH_EMAIL_SEND_OTP,
+        pass: process.env.AUTH_PASS_SEND_OTP,
+        // user: process.env.AUTH_EMAIL_SEND_OTP,
       },
+      // tls: {
+      //   rejectUnauthorized: false,
+      // },
     });
 
     const mailOptions = {
-      from: "vucuongtuan03@gmail.com",
+      from: process.env.AUTH_EMAIL_SEND_OTP,
       to: email,
-      subject: "OTP xác thực đăng nhập",
+      subject: "OTP xác thực đăng ký tài khoản LaptopTC",
       text: `Mã Otp của bạn là: ${otp}`,
     };
 
     await transporter.sendMail(mailOptions);
   } catch (error) {
-    throw new Error("Error sending OTP email");
+    console.log("====================================");
+    console.log(error);
+    console.log("====================================");
+    throw new Error("Error sending OTP email :" + { error });
   }
 };
 
 const sendOTPToEmailMiddleware = async (req, res, next) => {
   try {
     const { email } = req.body;
-    const otp = generateOTP();
+    const otp = otpGenerator.generate(6, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
+
     await sendOTP(email, otp);
     req.session.otp = otp;
     req.session.email = email;

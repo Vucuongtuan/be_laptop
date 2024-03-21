@@ -133,25 +133,21 @@ const sendOTPToEmailMiddleware = async (req, res, next) => {
 const postDataAccountUser = async (req, res, next) => {
   try {
     const {
-      namename,
-      age,
+      name,
       address,
       email,
       phone,
       password,
- 
     } = req.body;
     const cart = await Cart.create({
       fullName: name,
       email: email,
       phone: phone,
       address: address,
-    
     });
 
     await User.create({
       fullName:name,
-      age,
       address,
       email,
       password,

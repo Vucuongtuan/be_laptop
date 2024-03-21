@@ -5,13 +5,11 @@ const Schema = mongoose.Schema;
 const UserSchema = new Schema(
   {
     fullName: String,
-    age: Number,
+
     address: String,
     password: String,
     email: String,
     phone: { type: Number, default: null },
-    gender: { type: String, enum: ["Nam", "Nữ"] },
-    total: Number,
     cartID: { type: Schema.Types.ObjectId, ref: "cart" },
   },
   { collection: "User" }

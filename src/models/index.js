@@ -9,7 +9,7 @@ const UserSchema = new Schema(
     address: String,
     password: String,
     email: String,
-    phone: { type: Number, default: null },
+    phone: String,
     cartID: { type: Schema.Types.ObjectId, ref: "cart" },
   },
   { collection: "User" }

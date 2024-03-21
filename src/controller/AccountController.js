@@ -116,8 +116,9 @@ const sendOTPToEmailMiddleware = async (req, res, next) => {
     });
 
     await sendOTP(email, otp);
-    req.session.otp = otp;
-    req.session.email = email;
+    const luusession = {email,otp}
+    req.session = luusession;
+
 
     return res.status(200).json({
       message: "Mã OTP đã được gửi đến email.",

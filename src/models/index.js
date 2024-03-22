@@ -289,6 +289,12 @@ const PostContentSchema = new Schema(
   },
   { collection: "post_content" }
 );
+const otpSchema = new mongoose.Schema({
+  email: String,
+  otp: String,
+  createdAt: { type: Date, default: Date.now, expires: 300 }, // Set expiry for 5 minutes
+});
+const OTP = mongoose.model("Otp", otpSchema);
 const User = mongoose.model("User", UserSchema);
 const Brands = mongoose.model("brands", BrandsSchema);
 const ProductTypeLaptop = mongoose.model(
@@ -317,5 +323,5 @@ module.exports = {
   Brands,
   Keybourd,
   KeybourdType,
-  PostContent,
+  PostContent,OTP
 };

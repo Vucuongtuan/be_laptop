@@ -247,7 +247,7 @@ const loginAccountApp = async (req, res) => {
 
     res.status(200).json({
       token,
-      username: emailCheck.username,
+      username: emailCheck.name,
       email: emailCheck.email,
       userId: emailCheck._id,
       expiresIn: 3600,

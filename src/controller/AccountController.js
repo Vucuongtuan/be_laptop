@@ -1,4 +1,4 @@
-const { AccountDataUser, User, Cart } = require("../models");
+const { OTP, User, Cart } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
@@ -114,10 +114,9 @@ const sendOTPToEmailMiddleware = async (req, res, next) => {
       lowerCaseAlphabets: false,
       specialChars: false,
     });
-
+ await OTP.create({ email, otp });
     await sendOTP(email, otp);
-    const luusession = {email,otp}
-    req.session = luusession;
+
 
 
     return res.status(200).json({
@@ -172,7 +171,7 @@ const putDataAccountUser = async (req, res, next) => {
   try {
     const id = req.query.id;
     const password = req.body.password;
-    await AccountDataUser.findByIdAndUpdate(id, {
+    await User.findByIdAndUpdate(id, {
       password: password,
     })
       .then((data) => {

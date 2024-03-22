@@ -1,4 +1,4 @@
-const { OTP, User, Cart } = require("../models");
+const { User, Cart, OTP } = require("../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const nodemailer = require("nodemailer");
@@ -73,6 +73,14 @@ const getDataByIDAccountUser = async (req, res, next) => {
     });
   }
 };
+
+// const myOAuth2Client = new OAuth2Client(
+//   process.env.GOOGLE_MAILER_CLIENT_ID,
+//   process.env.GOOGLE_MAILER_CLIENT_SECRET
+// );
+// myOAuth2Client.setCredentials({
+//   refresh_token: GOOGLE_MAILER_REFRESH_TOKEN,
+// });
 const sendOTP = async (email, otp) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -96,7 +104,6 @@ const sendOTP = async (email, otp) => {
       subject: "OTP xác thực đăng ký tài khoản LaptopTC",
       text: `Mã Otp của bạn là: ${otp}`,
     };
-
     await transporter.sendMail(mailOptions);
   } catch (error) {
     console.log("====================================");
@@ -114,16 +121,15 @@ const sendOTPToEmailMiddleware = async (req, res, next) => {
       lowerCaseAlphabets: false,
       specialChars: false,
     });
- await OTP.create({ email, otp });
+
     await sendOTP(email, otp);
-
-
+    await OTP.create({ email, otp });
 
     return res.status(200).json({
       message: "Mã OTP đã được gửi đến email.",
     });
   } catch (err) {
-    console.error(err);
+    // console.error(err);
     return res.status(500).json({
       message: "Error sending OTP.",
     });
@@ -131,28 +137,20 @@ const sendOTPToEmailMiddleware = async (req, res, next) => {
 };
 const postDataAccountUser = async (req, res, next) => {
   try {
-    const {
-      name,
-      address,
-      email,
-      phone,
-      password,
-    } = req.body;
+    const { name, address, email, phone, password } = req.body;
     const cart = await Cart.create({
-      fullName: name,
+      name: name,
       email: email,
       phone: phone,
       address: address,
     });
-
     await User.create({
-      fullName:name,
+      name,
       address,
       email,
       password,
       phone,
       cartID: cart._id,
-
     });
 
     return res.status(200).json({
@@ -267,5 +265,6 @@ module.exports = {
   putDataAccountUser,
   deleteAccountUser,
   loginAccountApp,
+  sendOTP,
   sendOTPToEmailMiddleware,
 };
